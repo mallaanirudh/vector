@@ -1,0 +1,49 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bathroom/protos/BathroomSink.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bedroom/protos/Bed.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/DesktopComputer.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/television/protos/Television.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.19713375992778898 0.20724760948810272 0.9582205951962208 1.5634562211050678
+  position -0.5499716027741224 -16.281953500731476 7.080505717057638
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 0 0 1 3.14159
+  floorSize 10 5
+}
+Armchair {
+  translation 1 0 0
+  color 0 0 0
+}
+BathroomSink {
+  translation 3 2 0.05
+}
+Bed {
+  translation -3.5 -1.5 0
+}
+Door {
+  hidden translation_5 0.0015679930448954382 0.00017779757821212439 -1.1102230246251565e-15
+  hidden rotation_5 0 0 -0.9999999999999999 0.0011955509351074046
+  translation -4.75 2 0
+  rotation 0.9994449069791544 0 0.03331483023263848 0
+  position -0.0011955509351799269
+}
+DesktopComputer {
+  translation -3 2 0
+}
+Television {
+  translation 4 0 0.3
+}
