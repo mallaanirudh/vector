@@ -1,13 +1,34 @@
 <?xml version="1.0"?>
 <robot name="vector">
-  <gazebo>
-  <plugin name="webots_ros2_driver::WebotsRos2Driver" filename="libwebots_ros2_driver.so">
-    <!-- Optional: specify parameters or robot name if needed -->
-  </plugin>
-</gazebo>
+  <webots>
+    <plugin type="vector_slam::VectorDriver"/>
+  </webots>
+  
+  <ros2_control name="WebotsControl" type="system">
+    <hardware>
+      <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+    </hardware>
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
   <!-- ==================== MATERIALS ==================== -->
   <material name="chassis_color">
-    <color rgba="0.2 0.2 0.2 1.0"/>
+    <color rgba="0.05 0.25 0.65 1.0"/>
   </material>
   <material name="wheel_color">
     <color rgba="0.1 0.1 0.1 1.0"/>
@@ -191,5 +212,14 @@
     <child link="camera_link"/>
     <origin xyz="0.3 0 0.05" rpy="0 0 0"/>
   </joint>
+
+  <!-- ==================== WEBOTS DEVICE CONFIGURATION ==================== -->
+  <webots>
+    <device reference="laser_frame" type="Lidar">
+      <ros>
+        <enabled>false</enabled>
+      </ros>
+    </device>
+  </webots>
 
 </robot>

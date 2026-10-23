@@ -1,0 +1,5 @@
+<library path="vector_driver">
+  <class type="vector_slam::VectorDriver" base_class_type="webots_ros2_driver::PluginInterface">
+    <description>C++ Webots custom driver for Vector robot LiDAR and sensors</description>
+  </class>
+</library>

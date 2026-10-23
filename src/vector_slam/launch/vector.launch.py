@@ -11,6 +11,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('vector_slam')
     world_path = os.path.join(package_dir, 'worlds', 'vector3.wbt')
     urdf_path = os.path.join(package_dir, 'urdf', 'vector.urdf')
+    controllers_path = os.path.join(package_dir, 'config', 'ros2_controllers.yaml')
 
     # 1. Start the Webots simulation and enable the ROS 2 Supervisor
     webots = WebotsLauncher(
@@ -18,11 +19,13 @@ def generate_launch_description():
         ros2_supervisor=True
     )
 
-    # 2. Use the modern WebotsController instead of the deprecated generic driver node
+    # 2. Webots Controller node (must load ros2_controllers.yaml so controller_manager starts)
     vector_driver = WebotsController(
         robot_name='vector',
         parameters=[
             {'robot_description': urdf_path},
+            {'use_sim_time': True},
+            controllers_path
         ],
         output='screen'
     )
@@ -40,7 +43,32 @@ def generate_launch_description():
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{'robot_description': open(urdf_path).read()}]
+        parameters=[
+            {'robot_description': open(urdf_path).read()},
+            {'use_sim_time': True}
+        ]
+    )
+
+    # 5. Controller Manager Spawners
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': True}]
+    )
+
+    diff_drive_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['diff_drive_controller', '--controller-manager', '/controller_manager'],
+        parameters=[{'use_sim_time': True}]
+    )
+
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        parameters=[{'use_sim_time': True}],
+        output='screen'
     )
 
     return LaunchDescription([
@@ -49,7 +77,15 @@ def generate_launch_description():
         vector_driver,
         urdf_spawner,
         robot_state_publisher,
-        # Shutdown ROS nodes automatically if Webots is closed
+        rviz_node,
+        # Some deadlock error am delaying this by 5 sec
+        launch.actions.TimerAction(
+            period=5.0,
+            actions=[
+                joint_state_broadcaster_spawner,
+                diff_drive_spawner
+            ]
+        ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=webots,

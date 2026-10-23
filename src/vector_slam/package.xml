@@ -20,11 +20,12 @@
   <depend>webots_ros2_driver</depend>
   <depend>webots_ros2_core</depend>
   <depend>robot_state_publisher</depend>
-
+  <depend>pluginlib</depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
+    <webots_ros2_driver plugin="${prefix}/vector_driver.xml"/>
   </export>
 </package>
